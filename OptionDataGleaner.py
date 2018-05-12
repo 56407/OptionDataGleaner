@@ -149,7 +149,7 @@ def plot3d(df,ticker_list,option_type):
         ax.set_xlabel('TimeToMaturity')
         ax.set_ylabel('Strike Price')
         ax.set_zlabel('Implied Volatility')
-        ax.set_title("Visualization {} call options 3D plot".format(ticker,option_type))
+        ax.set_title("Visualization {} {} options 3D plot".format(ticker,option_type))
 
         plt.show()
     return
