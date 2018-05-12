@@ -14,6 +14,10 @@ from matplotlib.pyplot import cm
 def Option_data(options=None,n=2000):
     '''
     Get option data from Yahoo Finance
+    Remove incomplete option data and outliers, provide a concise data description,
+    calculate Time to Maturity, and save the clean data as a csv data file
+    clean criteria: Last_Trade_Date = 1/1/1970
+    clean outliers (implied volatility > 2)
     :param options: enter one name or a ticker name list,
             or randomly select all options of n tickers if no option entered
     :param n: number of tickers, default 2000
@@ -58,21 +62,8 @@ def Option_data(options=None,n=2000):
                     (str(options) + ' is not optionable')
                 continue
     del data['JSON']
-    data.to_csv('Option_data.csv')
-    return data
 
-
-def clean_data(df):
-    '''
-    Remove incomplete option data and outliers, provide a concise data description,
-    calculate Time to Maturity, and save the clean data as a csv data file
-    clean criteria: Last_Trade_Date = 1/1/1970
-    clean outliers (implied volatility > 2)
-    :param df: pandasDafaFrame
-    :return: clean data file
-    '''
-
-    df = df.dropna()
+    df = data.dropna()
     df['Last_Trade_Date'] = pd.to_datetime(df['Last_Trade_Date'])
     df = df[df['Last_Trade_Date'].dt.year != 1970]
     df = df[df['IV'] <= 2]
